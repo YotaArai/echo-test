@@ -8,21 +8,25 @@ import (
   "github.com/labstack/echo/v4"
 )
 
+type Post struct {
+  Id        int    `json:"id"`
+  Content   string `json:"content"`
+}
 
-func hello(c echo.Context) error {
-  database.Connect()
-  sqlDB, _ := database.DB.DB()
-  defer sqlDB.Close()
-  err := sqlDB.Ping()
-  if err != nil {
-    return c.String(http.StatusInternalServerError, "データベース接続失敗")
-  } else {
-    return c.String(http.StatusOK, "Hello, World!")
-  }
+
+func getPosts(c echo.Context) error {
+  posts := []Post{}
+  database.DB.Find(&posts)
+  return c.JSON(http.StatusOK, posts)
 }
 
 func main() {
   e := echo.New()
-  e.GET("/", hello)
+  database.Connect()
+  sqlDB, _ := database.DB.DB()
+  defer sqlDB.Close()
+
+  e.GET("/posts", getPosts)
+
   e.Logger.Fatal(e.Start(":3000"))
 }
