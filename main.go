@@ -4,8 +4,10 @@ import (
 	"echo-test/database"
 
   "net/http"
+  "os"
 
   "github.com/labstack/echo/v4"
+  "github.com/joho/godotenv"
 )
 
 type Post struct {
@@ -59,6 +61,11 @@ func deletePost(c echo.Context) error {
 }
 
 func main() {
+  err := godotenv.Load()
+  if err != nil {
+    panic(err.Error())
+  }
+
   e := echo.New()
   database.Connect()
   sqlDB, _ := database.DB.DB()
@@ -70,5 +77,5 @@ func main() {
   e.POST("/posts", createPost)
   e.DELETE("/posts/:id", deletePost)
 
-  e.Logger.Fatal(e.Start(":3000"))
+  e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }
