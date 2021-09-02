@@ -20,6 +20,44 @@ func getPosts(c echo.Context) error {
   return c.JSON(http.StatusOK, posts)
 }
 
+func getPost(c echo.Context) error {
+  id := c.Param("id")
+
+  post := Post{}
+  if err := c.Bind(&post); err != nil {
+    return err
+  }
+  database.DB.Find(&post, id)
+  return c.JSON(http.StatusOK, post)
+}
+
+func updatePost(c echo.Context) error {
+  id := c.Param("id")
+
+  post := Post{}
+  if err := c.Bind(&post); err != nil {
+    return err
+  }
+  database.DB.Find(&post, id)
+  post.Content = c.FormValue("content")
+  database.DB.Save(&post)
+  return c.JSON(http.StatusOK, post)
+}
+
+func createPost(c echo.Context) error {
+  post := Post{
+		Content: c.FormValue("content"),
+	}
+  database.DB.Create(&post)
+  return c.JSON(http.StatusOK, post)
+}
+
+func deletePost(c echo.Context) error {
+  id := c.Param("id")
+  database.DB.Delete(&Post{}, id)
+  return c.NoContent(http.StatusNoContent)
+}
+
 func main() {
   e := echo.New()
   database.Connect()
@@ -27,6 +65,10 @@ func main() {
   defer sqlDB.Close()
 
   e.GET("/posts", getPosts)
+  e.GET("/posts/:id", getPost)
+  e.PUT("/posts/:id", updatePost)
+  e.POST("/posts", createPost)
+  e.DELETE("/posts/:id", deletePost)
 
   e.Logger.Fatal(e.Start(":3000"))
 }
