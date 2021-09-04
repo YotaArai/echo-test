@@ -1,1 +1,1 @@
-web: bin/echo-test
+web: echo-test
