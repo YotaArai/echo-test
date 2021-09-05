@@ -1,7 +1,7 @@
 package main
 
 import (
-	"echo-test/database"
+	"echo-test-ya/database"
 
   "net/http"
   "os"

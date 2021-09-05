@@ -1,4 +1,4 @@
-module echo-test
+module echo-test-ya
 
 // +heroku goVersion go1.16
 go 1.16
