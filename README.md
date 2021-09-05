@@ -13,4 +13,3 @@
 https://nishinatoshiharu.com/restapi-echo-gorm/
 https://selegee.com/7230/
 https://gorm.io/ja_JP/docs/connecting_to_the_database.html
-https://qiita.com/sunnyG/items/95f61a39ca3303a6c85f
