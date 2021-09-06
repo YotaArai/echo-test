@@ -7,12 +7,14 @@ services:
     volumes:
       - .:/app
     environment:
+      - APP_ENV=${APP_ENV}
       - PORT=${PORT}
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - DB_DATABASE=${DB_DATABASE}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
+      - DATABASE_URL=${DATABASE_URL}
     depends_on:
       - db
     command: ["./start.sh"]
