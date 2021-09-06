@@ -7,7 +7,6 @@ import (
   "os"
 
   "github.com/labstack/echo/v4"
-  "github.com/joho/godotenv"
 )
 
 type Post struct {
@@ -61,10 +60,6 @@ func deletePost(c echo.Context) error {
 }
 
 func main() {
-  err := godotenv.Load()
-  if err != nil {
-    panic(err.Error())
-  }
 
   e := echo.New()
   database.Connect()
